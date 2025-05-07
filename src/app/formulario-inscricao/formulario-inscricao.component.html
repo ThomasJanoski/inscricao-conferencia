@@ -1,0 +1,124 @@
+<form [formGroup]="formulario" (ngSubmit)="enviarDados()" class="container mt-4">
+    <h2 class="text-center">
+        <i class="bi bi-clipboard-check"></i> Inscrição para Conferência Técnica
+    </h2>
+
+    <!-- Evento Selecionado -->
+    <div class="mb-3">
+        <label for="evento" class="form-label">
+            <i class="bi bi-calendar-event"></i> Evento Selecionado
+        </label>
+        <select formControlName="evento" class="form-select bg-light border rounded border-dark" required>
+            <option value="" disabled selected>Escolha um evento</option>
+            <option *ngFor="let evento of eventos" [value]="evento">{{ evento }}</option>
+        </select>
+        <div *ngIf="formulario.get('evento')?.invalid && formulario.get('evento')?.touched" class="text-danger mt-1">
+            O evento é obrigatório.
+        </div>
+    </div>
+
+    <!-- Modalidade -->
+    <div class="mb-3">
+        <label for="modalidade" class="form-label">
+            <i class="bi bi-display"></i> Modalidade
+        </label>
+        <select formControlName="modalidade" class="form-select bg-light border rounded border-dark" required>
+            <option value="" disabled selected>Escolha a modalidade</option>
+            <option *ngFor="let modalidade of modalidades" [value]="modalidade">{{ modalidade }}</option>
+        </select>
+        <div *ngIf="formulario.get('modalidade')?.invalid && formulario.get('modalidade')?.touched"
+            class="text-danger mt-1">
+            A modalidade é obrigatória.
+        </div>
+    </div>
+
+    <!-- Data de Início -->
+    <div class="mb-3">
+        <label for="dataInicio" class="form-label">
+            <i class="bi bi-clock-history"></i> Data de Início
+        </label>
+        <input type="date" formControlName="dataInicio" class="form-control bg-light border rounded border-dark"
+            required>
+
+        <div *ngIf="formulario.get('dataInicio')?.invalid && formulario.get('dataInicio')?.touched"
+            class="text-danger mt-1">
+            A Data de Início é obrigatória.
+        </div>
+    </div>
+
+    <!-- Data de Término -->
+    <div class="mb-3">
+        <label for="dataTermino" class="form-label">
+            <i class="bi bi-clock"></i> Data de Término
+        </label>
+        <input type="date" formControlName="dataTermino" class="form-control bg-light border rounded border-dark"
+            required>
+
+        <div *ngIf="formulario.get('dataTermino')?.hasError('dataInvalida')" class="text-danger mt-1">
+            A Data de Término não pode ser anterior à Data de Início.
+        </div>
+        <div *ngIf="formulario.get('dataTermino')?.invalid && formulario.get('dataTermino')?.touched"
+            class="text-danger mt-1">
+            A Data de Término é obrigatória.
+        </div>
+    </div>
+
+    <!-- Lista de Participantes -->
+    <div *ngIf="participantes.invalid && participantes.hasError('semParticipantes')" class="text-danger mt-2">
+        É obrigatório adicionar pelo menos um participante.
+    </div>
+
+    <div *ngFor="let participante of participantes.controls; let i = index" [formGroup]="participante">
+        <div class="border p-3 mb-3 position-relative bg-light border-dark">
+            <label class="form-label"><i class="bi bi-person-fill"></i> Nome Completo</label>
+            <input type="text" formControlName="nome" class="form-control bg-white border rounded border-dark" required>
+            <div *ngIf="participante.get('nome')?.invalid && participante.get('nome')?.touched"
+                class="text-danger mt-1">
+                Nome obrigatório.
+            </div>
+
+            <label class="form-label"><i class="bi bi-envelope"></i> E-mail</label>
+            <input type="email" formControlName="email" class="form-control bg-white border rounded border-dark"
+                required>
+            <div *ngIf="participante.get('email')?.invalid && participante.get('email')?.touched"
+                class="text-danger mt-1">
+                E-mail inválido ou obrigatório.
+            </div>
+
+            <label class="form-label"><i class="bi bi-card-list"></i> CPF</label>
+            <input type="text" formControlName="cpf" class="form-control bg-white border rounded border-dark" required
+                (input)="formatarCPF($event, i)">
+            <div *ngIf="participante.get('cpf')?.invalid && participante.get('cpf')?.touched" class="text-danger mt-1">
+                CPF inválido ou obrigatório.
+            </div>
+
+            <label class="form-label"><i class="bi bi-ticket-perforated"></i> Tipo de Ingresso</label>
+            <select formControlName="ingresso" class="form-select bg-white border rounded border-dark">
+                <option value="Padrão">Padrão</option>
+                <option value="VIP">VIP</option>
+                <option value="Estudante">Estudante</option>
+            </select>
+            <div *ngIf="participante.get('ingresso')?.invalid && participante.get('ingresso')?.touched"
+                class="text-danger mt-1">
+                Tipo de ingresso obrigatório.
+            </div>
+
+            <!-- Botão para Remover Participante -->
+            <button (click)="removerParticipante(i)" type="button" class="btn btn-outline-danger mt-2">
+                <i class="bi bi-trash"></i> Remover Participante
+            </button>
+        </div>
+    </div>
+
+    <!-- Botão para Adicionar Participante -->
+    <div class="mb-3">
+        <button (click)="adicionarParticipante()" type="button" class="btn btn-outline-primary">
+            <i class="bi bi-plus-circle"></i> Adicionar Participante
+        </button>
+    </div>
+
+    <!-- Botão de Enviar -->
+    <button type="submit" class="btn btn-success w-100 mt-1 mb-3 border-dark" [disabled]="formulario.invalid">
+        <i class="bi bi-check-circle"></i> Enviar Inscrição
+    </button>
+</form>

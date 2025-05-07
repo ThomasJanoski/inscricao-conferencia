@@ -1,0 +1,24 @@
+.form-control,
+.form-select {
+    background-color: #e9ecef;
+    /* Fundo cinza claro */
+    border: 1px solid black;
+    /* Borda preta fina */
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.border {
+    background: #f1f3f5;
+    /* Fundo leve para cada bloco de participante */
+    border-radius: 5px;
+    padding: 15px;
+    border: 1px solid black;
+    /* Borda preta fina nos participantes também */
+}
+
+.divisor {
+    border-top: 2px solid black;
+    /* Divisor entre participantes */
+    margin: 15px 0;
+}
