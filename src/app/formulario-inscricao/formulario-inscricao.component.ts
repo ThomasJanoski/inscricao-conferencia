@@ -29,7 +29,7 @@ export class FormularioInscricaoComponent {
   }
 
   get participantes(): FormArray<FormGroup> {
-    return this.formulario.get('participantes') as FormArray<FormGroup>;
+    return this.formulario?.get('participantes') as FormArray<FormGroup>;
   }
 
   // Validador para exigir pelo menos um participante
@@ -44,7 +44,7 @@ export class FormularioInscricaoComponent {
 
   validarDataTermino(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const dataInicio = this.formulario.get('dataInicio')?.value;
+      const dataInicio = this.formulario?.get('dataInicio')?.value;
       const dataTermino = control.value;
 
       if (dataInicio && dataTermino && dataTermino < dataInicio) {
