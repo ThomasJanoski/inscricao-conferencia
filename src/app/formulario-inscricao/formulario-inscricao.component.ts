@@ -44,7 +44,7 @@ export class FormularioInscricaoComponent {
 
   validarDataTermino(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const dataInicio = this.formulario.get('dataInicio')?.value;
+      const dataInicio = this.formulario?.get('dataInicio')?.value;
       const dataTermino = control.value;
 
       if (dataInicio && dataTermino && dataTermino < dataInicio) {
@@ -76,6 +76,7 @@ export class FormularioInscricaoComponent {
         dataTermino: valores.dataTermino
       });
 
+      // 🔥 Certifique-se de limpar o FormArray antes de adicionar os participantes
       this.participantes.clear();
 
       if (valores.participantes && valores.participantes.length) {
